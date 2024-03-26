@@ -15,7 +15,7 @@ function Homepage() {
     return (
         <>
             <h1>blog simple</h1>
-            <Search onSearch={onSearchChange} />
+            <Search onSearchChange={onSearchChange} />
             {posts.map((props, index) => (
                 <Article {...props} key={index}/>
             )
