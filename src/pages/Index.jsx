@@ -1,26 +1,34 @@
 import postsData from "../post.json"
 import Article from "../components/Article"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Search from "../components/Search"
 
 function Homepage() {
     const [posts, setPosts] = useState(postsData);
-
+    const [totalPosts, setTotalPosts] = useState(0)
+   
     const onSearchChange= (value) => {
         const filteredPosts = postsData.filter((item) => 
-        item.tittle.includes(value)
+        item.title.includes(value)
         );
         setPosts(filteredPosts)
+        setTotalPosts(filteredPosts.length)
     }
+    useEffect(() => {
+        fetch("https://jsonplaceholder.typicode.com/todos")
+        .then((respon) => respon.json())
+        .then((json) => setPosts(json))
+    }, [])
+
     return (
         <>
             <h1>blog simple</h1>
-            <Search onSearchChange={onSearchChange} />
+            <Search onSearchChange={onSearchChange} totalPosts={totalPosts} />
             {posts.map((props, index) => (
                 <Article {...props} key={index}/>
             )
             )}
-            </>
+        </>
     )
 }
 
